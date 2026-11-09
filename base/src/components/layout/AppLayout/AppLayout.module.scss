@@ -1,0 +1,30 @@
+.root {
+  min-height: 100vh;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: $z-sticky;
+  display: flex;
+  align-items: center;
+  height: var(--header-height);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.brand {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  text-decoration: none;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.content {
+  @include content-width;
+
+  padding-block: var(--spacing-6);
+}

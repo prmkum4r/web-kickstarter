@@ -1,0 +1,69 @@
+// Design tokens — the ONLY place raw colour / size literals are allowed.
+// Components consume `var(--token)` so the theme stays single-sourced.
+// The AntD theme mirrors the brand + radius values in src/styles/theme.ts; change both together.
+//
+// Sizing is `rem` against a 16px root so the UI honours user font settings; `px` is for hairlines only.
+
+:root {
+  color-scheme: light;
+
+  /* brand */
+  --color-primary: #4f46e5;
+  --color-primary-hover: #4338ca;
+  --color-primary-soft: #eef2ff;
+  --color-on-primary: #ffffff;
+
+  /* neutrals */
+  --color-background: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-surface-secondary: #f0f2f5;
+  --color-text: #111827;
+  --color-text-secondary: #4b5563;
+  --color-text-muted: #6b7280;
+  --color-border: #e5e7eb;
+
+  /* semantic */
+  --color-success: #15803d;
+  --color-warning: #b45309;
+  --color-error: #b91c1c;
+  --color-info: #1d4ed8;
+
+  /* typography */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-family-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.375rem;
+  --font-size-2xl: 1.75rem;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+
+  /* spacing (4px scale) */
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-12: 3rem;
+
+  /* radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-full: 9999px;
+
+  /* shadow */
+  --shadow-sm: 0 1px 2px rgb(17 24 39 / 6%);
+  --shadow-md: 0 2px 8px rgb(17 24 39 / 8%);
+
+  /* layout */
+  --content-max-width: 72rem;
+  --header-height: 3.5rem;
+  --touch-target-min: 2.75rem;
+}

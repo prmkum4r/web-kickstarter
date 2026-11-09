@@ -1,0 +1,21 @@
+@use 'sass:map';
+
+// Mobile-first responsive scale: every breakpoint is a min-width.
+$breakpoints: (
+  'sm': 480px,
+  'md': 768px,
+  'lg': 1024px,
+  'xl': 1440px,
+);
+
+@function breakpoint($name) {
+  @if not map.has-key($breakpoints, $name) {
+    @error 'Unknown breakpoint `#{$name}`. Available: #{map.keys($breakpoints)}.';
+  }
+  @return map.get($breakpoints, $name);
+}
+
+// Layering scale — keeps sticky chrome below AntD overlays (z-index 1000+).
+$z-content: 1;
+$z-sticky: 100;
+$z-nav: 200;

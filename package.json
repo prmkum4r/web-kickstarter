@@ -1,0 +1,15 @@
+{
+  "name": "claude-kickstarter",
+  "private": true,
+  "type": "module",
+  "description": "Clone, run init, start building: a React project template (Next.js or Vite) with a self-documenting Claude Code setup.",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "init": "node init.mjs",
+    "verify": "node scripts/verify-stacks.mjs",
+    "verify:e2e": "node scripts/verify-stacks.mjs --e2e",
+    "refresh-locks": "node scripts/verify-stacks.mjs --refresh-locks"
+  }
+}

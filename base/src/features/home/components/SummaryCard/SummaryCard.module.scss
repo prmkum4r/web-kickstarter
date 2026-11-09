@@ -1,0 +1,10 @@
+.root {
+  height: 100%;
+  box-shadow: var(--shadow-sm);
+}
+
+.hint {
+  margin-top: var(--spacing-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}

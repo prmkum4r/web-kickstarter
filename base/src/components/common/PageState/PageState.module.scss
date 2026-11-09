@@ -1,0 +1,21 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  padding-block: var(--spacing-6);
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.emptyTitle {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
+
+.emptyDescription {
+  color: var(--color-text-secondary);
+}

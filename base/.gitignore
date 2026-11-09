@@ -1,0 +1,29 @@
+# dependencies
+node_modules/
+
+# build output
+.next/
+out/
+dist/
+build/
+next-env.d.ts
+*.tsbuildinfo
+
+# tests
+coverage/
+playwright-report/
+test-results/
+playwright/.auth/
+
+# env — only the example is committed
+.env
+.env.*
+!.env.example
+
+# claude code — personal settings and docs-check session state
+.claude/settings.local.json
+.claude/.docs-check/
+
+# os / editors
+.DS_Store
+*.log

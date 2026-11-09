@@ -1,0 +1,4 @@
+// Injected into every stylesheet by the bundler (`@use "core" as *`).
+// Only forward partials that emit NO CSS, or every stylesheet would duplicate it.
+@forward 'breakpoints';
+@forward 'mixins';

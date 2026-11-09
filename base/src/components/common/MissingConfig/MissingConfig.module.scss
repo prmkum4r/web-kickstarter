@@ -1,0 +1,12 @@
+.root {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: var(--spacing-6);
+
+  code {
+    padding: 0 var(--spacing-1);
+    background-color: var(--color-surface-secondary);
+    border-radius: var(--radius-sm);
+  }
+}

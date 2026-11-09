@@ -1,0 +1,89 @@
+# {{PROJECT_TITLE}}
+
+{{PROJECT_DESCRIPTION}}
+
+This file holds the always-loaded rules. Module detail lives in `docs/` and loads automatically when you touch the matching code (see **Docs** below). Skills for recurring tasks live in `.claude/skills/`.
+
+## Stack
+
+**{{STACK}}** · React 19 · TypeScript (strict) · Ant Design 6 · SCSS (CSS Modules + design tokens) · Vitest · Playwright · ESLint.
+
+{{STACK_SECTION}}
+
+## Commands
+
+| Command | What it does |
+|---------|--------------|
+| `npm run dev` | Dev server on http://localhost:3000 (launch config `dev`) |
+| `npm run check` | **The gate:** lint → typecheck → unit tests → build. Run before reporting any code change done. |
+| `npm run lint` / `npm run typecheck` | ESLint (incl. architecture boundaries) / `tsc` |
+| `npm run test` / `test:watch` / `test:coverage` | Vitest unit tests (`src/**/*.test.ts`) |
+| `npm run test:e2e:merge` | Playwright, excluding `@deploy` specs (safe locally) |
+| `npm run test:e2e:deploy` | `@deploy` specs only. Never run these on your own. |
+| `npm run docs:check` | Same check as the Stop hook: changed code vs. its doc |
+| `npm run build` / `npm run preview` | Production build / serve it on :3000 |
+
+## Architecture (summary — full version in docs/architecture.md)
+
+```
+src/app/        routing only (stack-specific)       src/platform/   router + env adapters (stack-specific)
+src/features/   one folder per product area          src/components/ custom/ (AntD wrappers) · common/ · layout/
+src/hooks/      shared hooks                         src/lib/api/    the HTTP client + error vocabulary
+src/config/     env · routes (PATHS) · constants     src/styles/     tokens · SCSS core · AntD theme
+src/providers/  AppProviders                         src/types/      shared types (incl. the platform contract)
+```
+
+Data path: **page → hook (`useAsyncData`) → `<Module>Service` → `api` → fetch.** Services return `ServiceResult<T>`; components never call `fetch` or `api`.
+
+## Hard rules
+
+- **Stack-neutral code.** Outside `src/app/` and `src/platform/`, never import `next/*` or `react-router`. Use `Link`, `useNavigate`, `usePathname`, `useParams`, `useSearchParams` from `@/platform/router`. *(ESLint-enforced)*
+- **Env** only through `@/config/env`. *(ESLint-enforced)* Every env value is public: no secrets.
+- **AntD wrappers.** `Button`, `Input`, `Select`, `Form`, `Modal` come from `@/components/custom/`; toasts from `useToast()`, never antd `message`. *(ESLint-enforced)*
+- **Feature boundaries.** Import another feature only via `@/features/<name>` (its `index.ts`); relative imports inside a feature. *(ESLint-enforced)*
+- **No path literals:** use `PATHS` / `build…Path` from `src/config/routes.ts`.
+- **Every service method returns `ServiceResult<T>`** with user-facing `fallbackMessage` copy. Raw errors never reach components.
+- **`useAsyncData` fetchers are `useCallback`-memoised with primitive deps**, or the screen re-fetches every render.
+- **Data views render through `PageState`** (loading / error / empty / success).
+- **No global store.** Server data in hooks, UI state in `useState`. Introducing one is an architecture decision: ask first and record it in `docs/architecture.md`.
+- **Styles:** CSS Modules, tokens only (`var(--…)`), `rem`, mobile-first `@include up()`. No hex, no `px` spacing, no `style={{}}` without a dynamic value.
+- **Components:** `'use client'` first line, folder-per-component, `const Name: FC<NameProps>` + default export.
+- **Tests:** unit tests next to the code (`*.test.ts`) for services and pure logic; e2e for user flows. Selectors follow `docs/testing-contract.md`.
+
+## Skills
+
+| Skill | Use when |
+|-------|----------|
+| `create-component` | Adding any new component, page, form or modal |
+| `edit-component` | Changing an existing component, page, hook or style |
+| `add-service` | Fetching or mutating data: a service method + its hook |
+| `add-module` | A new product area or route: scaffolds the feature, its doc, its rule, its route |
+| `lint-audit` | Reviewing files against these conventions (read-only report) |
+| `sync-docs` | Auditing docs against the code and fixing drift |
+| `skill-creator` | Writing or improving a skill |
+
+## Docs — agent memory
+
+Read the relevant doc **before** changing a module, and **update it in the same change**. A doc that disagrees with the code is a bug: trust the code, then fix the doc.
+
+| Doc | Loaded | Covers |
+|-----|--------|--------|
+| `docs/agent-workflow.md` | always | How work is done: read first, scope, verification, git, reporting |
+| `docs/testing-contract.md` | always | Selectors e2e relies on |
+| `docs/architecture.md` | `src/lib`, `hooks`, `providers`, `types`, `utils`, `config/env.ts`, `config/constants.ts` | Layers, data flow, errors, env, boundaries |
+| `docs/design-system.md` | `src/styles/**` | Tokens, SCSS injection, CSS Modules, AntD theme |
+| `docs/components.md` | `src/components/**` | Wrappers, common components, layout |
+| `docs/platform.md` | `src/app/**`, `src/platform/**`, `src/config/routes.ts` | Routing + env adapters (stack-specific) |
+| `docs/modules/home.md` | `src/features/home/**` | Home page |
+| `docs/README.md` | on demand | Index, loading model, maintenance rules |
+
+"Loaded" comes from the `paths:` globs in `.claude/rules/*.md`. The **docs-check Stop hook** uses the same globs: if you changed code but not its doc, it stops you once with the list. Update the doc, or reply `No doc impact: <reason>`. New module → `add-module` skill (adds the folder, doc, rule and rows here). Never edit content into a rule file; edit the doc.
+
+## Contributor rules
+
+- Never commit, push or stage unless asked. Never revert the owner's uncommitted changes.
+- Run `npm run check` before reporting done, and say what you verified and what you didn't.
+- Keep this file short: rules here, detail in `docs/`. Update it in the same change when a rule changes.
+
+@docs/agent-workflow.md
+@docs/testing-contract.md

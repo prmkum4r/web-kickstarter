@@ -1,0 +1,5 @@
+- **Framework:** Next.js 16 App Router, Turbopack, React Compiler on. `src/app/` holds only route files (`layout.tsx`, `page.tsx`, `not-found.tsx`, route folders) that render pages from `src/features/`.
+- **Rendering:** components under `src/components/` and `src/features/` are client components (`'use client'` on line 1). Files in `src/app/` stay server components unless they need otherwise; `layout.tsx` wraps everything in `AntdRegistry` for SSR-safe AntD styles.
+- **Env:** public variables are `NEXT_PUBLIC_*`, read as literals in `src/platform/env.ts` (Next only inlines literal reads).
+- **Dev server:** Next allows one `next dev` per project. If the owner's server is already on :3000, preview a production build on another port instead: `npx next build && npx next start -p 3100`.
+- **Gotchas:** `useSearchParams` needs a `<Suspense>` boundary above it. A hydration error showing old markup is usually a stale dev cache: reload with a new query string before debugging.

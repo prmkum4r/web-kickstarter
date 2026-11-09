@@ -1,0 +1,56 @@
+# {{PROJECT_TITLE}}
+
+{{PROJECT_DESCRIPTION}}
+
+Built on **{{STACK}}**, React 19, TypeScript, Ant Design 6 and SCSS, with a Claude Code setup that keeps the docs in step with the code.
+
+## Getting started
+
+```bash
+npm install            # already done if you ran the kickstarter init
+cp .env.example .env.local   # already done by init; edit values as needed
+npm run dev            # http://localhost:3000
+```
+
+Requires Node 20.19+.
+
+## Scripts
+
+| Script | |
+|--------|-|
+| `dev` | Dev server on :3000 |
+| `check` | lint → typecheck → unit tests → build (run before every PR) |
+| `test`, `test:watch`, `test:coverage` | Vitest |
+| `test:e2e:merge` | Playwright, excluding `@deploy` specs |
+| `test:e2e:deploy` | `@deploy` specs (post-deploy) |
+| `docs:check` | Changed code whose doc wasn't updated (`--base origin/main` for a branch, `--strict` to also fail on unmapped files) |
+| `build`, `preview` | Production build, served on :3000 |
+
+## Project layout
+
+```
+src/app/          routing only (stack-specific)
+src/platform/     router + env adapters (stack-specific)
+src/features/     one folder per product area: page, components, hooks, services, types, tests
+src/components/   custom/ (AntD wrappers), common/, layout/
+src/hooks/        shared hooks
+src/lib/api/      HTTP client + error vocabulary
+src/config/       env, routes, constants
+src/styles/       design tokens, SCSS core, AntD theme
+e2e/              Playwright specs
+docs/             module docs (agent memory)
+.claude/          Claude Code: settings, hooks, rules, skills
+```
+
+Details: [docs/architecture.md](docs/architecture.md).
+
+## Working with Claude Code
+
+- `CLAUDE.md` holds the always-loaded rules. Module docs in `docs/` load automatically when Claude touches the matching code, through the rules in `.claude/rules/`.
+- When a session changes code without updating its doc, the **docs-check Stop hook** (`.claude/hooks/docs-check.mjs`) asks for the doc to be updated, once per change.
+- Skills in `.claude/skills/`: `create-component`, `edit-component`, `add-service`, `add-module`, `lint-audit`, `sync-docs`, `skill-creator`.
+- Personal overrides go in `.claude/settings.local.json` (gitignored).
+
+## Environment
+
+Everything in `.env*` is inlined into the browser bundle, so never put secrets there. See `.env.example` and [docs/platform.md](docs/platform.md#rules-and-why).

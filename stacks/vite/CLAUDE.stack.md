@@ -1,0 +1,5 @@
+- **Framework:** Vite 8 SPA with React Router 8 (data router), React Compiler on. `src/app/` holds only the entry (`main.tsx`) and the route table (`router.tsx`), which lazy-loads pages from `src/features/`.
+- **Rendering:** client-only. Components still start with `'use client'` so they stay portable to the Next stack; it is a no-op here.
+- **Env:** public variables are `VITE_*`, read as literals in `src/platform/env.ts`.
+- **Deploy:** it's an SPA, so every path must serve `index.html`; `vercel.json` already rewrites. Other hosts need the same fallback.
+- **Gotchas:** `vite preview` serves the last `npm run build`, so rebuild before previewing. Port 3000 is strict: if it's taken, the server fails rather than switching ports.

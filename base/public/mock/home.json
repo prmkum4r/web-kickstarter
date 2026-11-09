@@ -1,0 +1,9 @@
+{
+  "title": "Welcome",
+  "subtitle": "Your project is wired up: this page runs page → hook → service → API against public/mock.",
+  "stats": [
+    { "id": "modules", "label": "Feature modules", "value": 1, "hint": "Add more with the add-module skill" },
+    { "id": "docs", "label": "Docs kept in sync", "value": 7, "hint": "Enforced by the docs-check Stop hook" },
+    { "id": "checks", "label": "Checks in npm run check", "value": 4, "hint": "lint → typecheck → test → build" }
+  ]
+}
